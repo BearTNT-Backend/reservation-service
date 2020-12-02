@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dates = require ('./data.js');
 const mongodbURL = process.env.MONGODB_URL || 'mongodb://localhost:27017/bear';
-mongoose.connect(mongodbURL, {})
+mongoose.connect(mongodbURL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
@@ -69,6 +69,7 @@ let getCostsByAppartment = (id, callback) => {
 };
 
 let makeReservation = (params, callback) => {
+  console.log('in db makeReservation fucntion');
   let SaveReservation = new Reservations (params);
 
   SaveReservation.save ((err, data) => {

@@ -173,7 +173,7 @@ function App () {
   };
 
   /**
-   * updates selected guests everu time guests anount is changed
+   * updates selected guests every time guests anount is changed
    */
 
   const guestsUpdate = (adults, children, infants) => {

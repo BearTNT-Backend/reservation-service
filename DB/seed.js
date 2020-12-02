@@ -7,12 +7,12 @@ let calendarDates = dates.getDates(new Date(), (new Date()).addDays(365));
 let populateData = () => {
   for (let i = 1; i <= 100; i++) {
     let id = i;
-    db.Calendar.find({apartmentId: id}, (err, result) => {
+    db.Calendar.find({apartmentId: id}, (err, result) => { // test if data at i already
       if (err) {
         console.log('Error in populateData');
         throw (err);
       }
-      if (result === undefined || result.length === 0 || ! result) {
+      if (result === undefined || result.length === 0 || ! result) { // if there is no data or the data is bad populate it
         let nGuests = 1 + Math.floor(Math.random() * 10);
         let aptCost = 100 + Math.floor(Math.random() * 50);
         let cleanCost = Math.floor(aptCost * 0.1);
@@ -36,7 +36,7 @@ let populateData = () => {
             if (err) {
               console.log('save error', err);
             } else {
-              console.log('saved');
+              console.log('saved', i);
             }
           });
         }
@@ -45,5 +45,5 @@ let populateData = () => {
 
   }
 };
-populateData();
+populateData(); // should mongoose disconnect
 console.log(calendarDates);

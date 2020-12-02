@@ -45,9 +45,11 @@ app.get('/api/reservation/reservationCost', (req, res) => {
 });
 
 
-app.post('/api/reservation/makeReservation', (req, res) => {
+// -------------start of SDC ----------------
+
+app.post('/api/reservation/makeReservation', (req, res) => { // validity should be checked on client just need to push to db
   console.log('makeReservation');
-  //console.log(req.body.params);
+  console.log(req.body.params);
   let params = req.body.params;
   db.makeReservation (params, (err, data) => {
     if (err) {
@@ -61,6 +63,22 @@ app.post('/api/reservation/makeReservation', (req, res) => {
 
 
 });
+
+
+// update
+app.put('/api/reservation/update', (req, res) => {
+  console.log('reservation update!');
+  // check valid update
+  res.send('do something with reservation update');
+});
+// delete
+app.delete('/api/reservation/update', (req, res) => {
+  console.log('Delete Reservation!');
+  // delete by ?
+  res.send('Deleted Reservation');
+});
+
+
 
 let port = process.env.PORT || 3001;
 app.listen(port, ()=> {
