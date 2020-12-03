@@ -1,11 +1,25 @@
 
-CREATE IF NOT EXISTS DATABASE sdc;
+-- start mysql and seed schema via the following
+-- sudo service mysql start
+-- mysql -u root -p < schema.sql
+
+CREATE DATABASE IF NOT EXISTS sdc;
 
 USE sdc;
 
-CREATE TABLE listings (
+CREATE TABLE IF NOT EXISTS reservations (
+  resId int NOT NULL AUTO_INCREMENT,
+  reservationKey int NOT NULL UNIQUE,
+  startDate DATE NOT NULL,
+  endDate DATE NOT NULL,
+  adults int,
+  children int,
+  infants int,
+  PRIMARY KEY (resId)
+);
+CREATE TABLE IF NOT EXISTS listings (
   aptId int NOT NULL AUTO_INCREMENT,
-  reservations int,
+  reservationKey int NOT NULL UNIQUE,
   occupencyAdult int NOT NULL,
   occupencyChild int,
   occupencyInfant int,
@@ -15,16 +29,7 @@ CREATE TABLE listings (
   rating float,
   numRatings int,
   PRIMARY KEY (aptId),
-  FOREIGN KEY (reservations) REFERENCES reservations(aptKey)
+  FOREIGN KEY (reservationKey) REFERENCES reservations(reservationKey)
 );
 
-CREATE TABLE reservations (
-  resId int NOT NULL AUTO_INCREMENT,
-  aptKey int,
-  startDate DATE NOT NULL,
-  endDate DATE NOT NULL,
-  adults int,
-  children int,
-  infants int,
-  PRIMARY KEY (resId)
-);
+
