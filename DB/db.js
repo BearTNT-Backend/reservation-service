@@ -68,26 +68,58 @@ let getCostsByAppartment = (id, callback) => {
   });
 };
 
+// ------- SDC -------------
+
 let makeReservation = (params, callback) => {
   console.log('in db makeReservation fucntion');
-  let SaveReservation = new Reservations (params);
-
-  SaveReservation.save ((err, data) => {
+  let NewReservation = new Calendar (params);
+  NewReservation.save ((err, data) => {
     if (err) {
       console.log('error saving reservation Data');
+      return callback(err);
     } else {
       console.log ('reservation data saved');
-      //callback(data);
+      return callback(null);
     }
   });
 
 };
 
+let updateReservation = (req, callback) => {
+  Calendar.find({apartmentId: req.apartmentId}, (err, result) => {
+    if (err) {
+      console.error(err);
+    } else {
+      //Calendar.update(apartmentId: req.apartmentId)
+      //db.collection.update({querry, update})
+      console.log('Update Me');
+      if (err) {
+        return callback(err);
+      } else {
+        return callback(null);
+      }
+    }
+  });
+};
+
+let deleteReservation = (req, callback) => {
+  Calendar.deleteOne({req}, (err) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null);
+    }
+  });
+};
+
+
 
 module.exports = mongoose.connection;
 
 module.exports.Calendar = Calendar;
-module.exports.makeReservation = makeReservation;
 module.exports.ApartmentCalendar = ApartmentCalendar;
 module.exports.getCostsByAppartment = getCostsByAppartment;
 module.exports.getCalendarDataByApartment = getCalendarDataByApartment;
+
+module.exports.makeReservation = makeReservation;
+module.exports.deleteReservation = deleteReservation;

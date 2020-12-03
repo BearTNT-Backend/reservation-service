@@ -5,7 +5,7 @@ const dates = require('./data.js');
 let calendarDates = dates.getDates(new Date(), (new Date()).addDays(365));
 
 let populateData = () => {
-  for (let i = 1; i <= 100; i++) {
+  for (let i = 1; i <= 3; i++) {
     let id = i;
     db.Calendar.find({apartmentId: id}, (err, result) => { // test if data at i already
       if (err) {

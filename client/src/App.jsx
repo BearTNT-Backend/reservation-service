@@ -102,7 +102,7 @@ function App () {
   **/
 
   const endDateClick = (startDate, endDate) => {
-    console.log('enddate start');
+    //console.log('enddate start');
     setReservationDates({startDate: startDate, endDate: endDate});
     setShowFees(true);
     //console.log('sendData');

@@ -49,33 +49,45 @@ app.get('/api/reservation/reservationCost', (req, res) => {
 
 app.post('/api/reservation/makeReservation', (req, res) => { // validity should be checked on client just need to push to db
   console.log('makeReservation');
-  console.log(req.body.params);
+  //console.log(req.body);
   let params = req.body.params;
-  db.makeReservation (params, (err, data) => {
+  db.makeReservation (params, (err) => {
     if (err) {
       console.log('error during saving reservation data');
       res.sendStatus(400);
     } else {
-      console.log('Reservation Data saved');
+      console.log('post complete');
       res.sendStatus(201);
     }
   });
-
-
 });
 
 
 // update
 app.put('/api/reservation/update', (req, res) => {
   console.log('reservation update!');
-  // check valid update
+  console.log(req);
+  // let appartmentID = (Number) (req.body.appartmentID);
+  // valid data point  db.find()
+
+  // check valid upadte
+
   res.send('do something with reservation update');
 });
 // delete
-app.delete('/api/reservation/update', (req, res) => {
-  console.log('Delete Reservation!');
-  // delete by ?
-  res.send('Deleted Reservation');
+app.delete('/api/reservation/delete', (req, res) => {
+  console.log('Deleting Reservation!');
+  let aptId = Number(req.query.ApartmentId);
+  let resId = req.body._id;
+  db.deleteReservation({appartmentID: aptId, _id: resId}, (err) => {
+    if (err) {
+      console.log('Error could not delete');
+      res.send('Error could not delete');
+    } else {
+      console.log('Deleted Reservation');
+      res.send('Deleted Reservation');
+    }
+  });
 });
 
 
