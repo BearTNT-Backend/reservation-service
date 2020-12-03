@@ -74,6 +74,7 @@ app.put('/api/reservation/update', (req, res) => {
 
   res.send('do something with reservation update');
 });
+
 // delete
 app.delete('/api/reservation/delete', (req, res) => {
   console.log('Deleting Reservation!');
@@ -89,8 +90,6 @@ app.delete('/api/reservation/delete', (req, res) => {
     }
   });
 });
-
-
 
 let port = process.env.PORT || 3001;
 app.listen(port, ()=> {
