@@ -47,11 +47,12 @@ app.get('/api/reservation/reservationCost', (req, res) => {
 
 // -------------start of SDC ----------------
 
+// post
 app.post('/api/reservation/makeReservation', (req, res) => { // validity should be checked on client just need to push to db
   console.log('makeReservation');
   //console.log(req.body);
-  let params = req.body.params;
-  db.makeReservation (params, (err) => {
+  let data = req.body;
+  db.makeReservation (data, (err) => {
     if (err) {
       console.log('error during saving reservation data');
       res.sendStatus(400);
@@ -66,13 +67,16 @@ app.post('/api/reservation/makeReservation', (req, res) => { // validity should 
 // update
 app.put('/api/reservation/update', (req, res) => {
   console.log('reservation update!');
-  console.log(req);
-  // let appartmentID = (Number) (req.body.appartmentID);
-  // valid data point  db.find()
-
-  // check valid upadte
-
-  res.send('do something with reservation update');
+  let aptId = Number(req.query.ApartmentId);
+  req.body['ApartmentId'] = aptId;
+  // valid data point ?? db.find()
+  db.updateReservation( req, (err) => {
+    if (err) {
+      res.send('Could not update Reservation');
+    } else {
+      res.send('Reservation updated');
+    }
+  });
 });
 
 // delete
@@ -80,7 +84,7 @@ app.delete('/api/reservation/delete', (req, res) => {
   console.log('Deleting Reservation!');
   let aptId = Number(req.query.ApartmentId);
   let resId = req.body._id;
-  db.deleteReservation({appartmentID: aptId, _id: resId}, (err) => {
+  db.deleteReservation({appartmentID: aptId, reservationId: resId}, (err) => {
     if (err) {
       console.log('Error could not delete');
       res.send('Error could not delete');
