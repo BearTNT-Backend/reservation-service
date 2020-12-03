@@ -33,6 +33,7 @@
     "loader-runner": "^4.1.0",
     "moment": "^2.29.1",
     "mongoose": "^5.10.14",
+    "mysql": "github:mysqljs/mysql",
     "nodemon": "^2.0.6",
     "react": "^17.0.1",
     "react-collapsible": "^2.8.1",

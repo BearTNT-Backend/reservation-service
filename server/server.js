@@ -6,8 +6,14 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 const path = require('path');
-let db = require('../DB/db.js');
-let data = require('../DB/data.js');
+
+
+// --- MongoDB --- not CRUD
+// let db = require('../DB/MongoDB/db.js');
+// let data = require('../DB/MongoDB/data.js');
+
+// --- mySQL ---
+import db from ('..DB/MYSQL/db.js');
 
 app.get('/listing/*', (req, res) => {
 
