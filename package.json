@@ -10,7 +10,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack -d –watch",
-    "seed": "node DB/seed.js",
+    "seed": "node DB/seeding/seed.js",
     "server:dev": "nodemon server/server.js",
     "start": "nodemon server/server.js",
     "start:pm2": "pm2 start server/server.js",
@@ -32,7 +32,9 @@
     "jquery": "^3.5.1",
     "loader-runner": "^4.1.0",
     "moment": "^2.29.1",
+    "moment-random": "^1.1.0",
     "mongoose": "^5.10.14",
+    "mysql": "github:mysqljs/mysql",
     "nodemon": "^2.0.6",
     "react": "^17.0.1",
     "react-collapsible": "^2.8.1",
