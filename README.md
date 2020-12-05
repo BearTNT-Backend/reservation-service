@@ -8,14 +8,14 @@
 
 ## Usage
 
-> Some usage instructions
+-start mySql service $ sudo service mysql start
 
 ## Requirements
 
 An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 
 - Node 6.13.0
-- etc
+- mySQL 8.0.22
 
 ## Development
 
