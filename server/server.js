@@ -13,7 +13,7 @@ const path = require('path');
 // let data = require('../DB/MongoDB/data.js');
 
 // --- mySQL ---
-import db from ('..DB/MYSQL/db.js');
+const db = require('../DB/MYSQL/db.js');
 
 
 // --- Cassandra ---

@@ -10,7 +10,8 @@
   "scripts": {
     "test": "jest",
     "build": "webpack -d –watch",
-    "seed": "node DB/seeding/seed.js",
+    "seedCSV": "node DB/seeding/seed.js",
+    "seedMysql": "node DB/seeding/populateMySQL.js",
     "server:dev": "nodemon server/server.js",
     "start": "nodemon server/server.js",
     "start:pm2": "pm2 start server/server.js",

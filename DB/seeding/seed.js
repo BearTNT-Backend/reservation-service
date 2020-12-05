@@ -4,7 +4,7 @@ const moment = require('moment') ;
 const MomentRandom = require('moment-random');
 const fs = require('fs');
 
-// let csvSeed = () => {
+ let csvSeed = () => {
   //const { Writeable } = require('stream');
   // Helpers --------------------------------------------------------------------
 
@@ -84,14 +84,14 @@ const fs = require('fs');
   let createWriteRecord = () => {
     let numberOfReservations = 0;
     // set csv first line with data variable names
-    listingWriteStream.write('occupency, feeNightly, feeService, feeCleaning, rating, numRatings, ');
-    reservationWriteStream.write('listingKey, start, end, adults, children, infants, ');
+    listingWriteStream.write('occupency, feeNightly, feeService, feeCleaning, rating, numRatings\n');
+    reservationWriteStream.write('listingKey, start, end, adults, children, infants\n');
 
     for (var i = 0; i < numListings; i++) {
 
       // running status
       if (i % 500000 === 0) {
-        console.log(i, ' listing records ...');
+        console.log('Completed ', i, ' listing records ...');
       }
 
       // get data
@@ -99,13 +99,13 @@ const fs = require('fs');
       // format data
       let listingRecord = `${record.listing.occupency}, ${record.listing.feeNightly}, \
 ${record.listing.feeService}, ${record.listing.feeCleaning}, \
-${record.listing.rating}, ${record.listing.numRatings}, `;
+${record.listing.rating}, ${record.listing.numRatings}\n`;
 
       let reservationRecord = '';
       for (var j = 0; j < record.reservations.length; j++) {
         reservationRecord += `${record.reservations[j].listingKey}, ${record.reservations[j].start}, \
 ${record.reservations[j].end}, ${record.reservations[j].adults}, ${record.reservations[j].children}, \
-${record.reservations[j].infants}, `;
+${record.reservations[j].infants}\n`;
         numberOfReservations++;
       }
 
@@ -119,5 +119,5 @@ ${record.reservations[j].infants}, `;
   createWriteRecord();
 
   console.log('CSV Seed Complete!');
-// }
-// module.exports.csvSeed = csvSeed;
+}
+module.exports = csvSeed;
