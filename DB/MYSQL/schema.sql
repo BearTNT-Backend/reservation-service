@@ -9,27 +9,26 @@ USE sdc;
 
 CREATE TABLE IF NOT EXISTS reservations (
   resId int NOT NULL AUTO_INCREMENT,
-  reservationKey int NOT NULL UNIQUE,
+  listingKey int NOT NULL UNIQUE,
   startDate DATE NOT NULL,
   endDate DATE NOT NULL,
   adults int,
   children int,
   infants int,
-  PRIMARY KEY (resId)
+  PRIMARY KEY (resId),
+  FOREIGN KEY (listingKey) REFERENCES listings(reservationKey)
 );
+
 CREATE TABLE IF NOT EXISTS listings (
-  aptId int NOT NULL AUTO_INCREMENT,
+  listingId int NOT NULL AUTO_INCREMENT,
   reservationKey int NOT NULL UNIQUE,
-  occupencyAdult int NOT NULL,
-  occupencyChild int,
-  occupencyInfant int,
-  feeApt int,
+  occupency int NOT NULL,
+  feeNightly int,
   feeService int,
   feeCleaning int,
   rating float,
   numRatings int,
-  PRIMARY KEY (aptId),
-  FOREIGN KEY (reservationKey) REFERENCES reservations(reservationKey)
+  PRIMARY KEY (aptId)
 );
 
 
