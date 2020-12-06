@@ -84,8 +84,8 @@ const fs = require('fs');
   let createWriteRecord = () => {
     let numberOfReservations = 0;
     // set csv first line with data variable names
-    listingWriteStream.write('occupency, feeNightly, feeService, feeCleaning, rating, numRatings\n');
-    reservationWriteStream.write('listingKey, start, end, adults, children, infants\n');
+    listingWriteStream.write('listingId, occupency, feeNightly, feeService, feeCleaning, rating, numRatings\n');
+    reservationWriteStream.write('resId, listingKey, start, end, adults, children, infants\n');
 
     for (var i = 0; i < numListings; i++) {
 
@@ -97,13 +97,13 @@ const fs = require('fs');
       // get data
     let record = createRecord(i);
       // format data
-      let listingRecord = `${record.listing.occupency}, ${record.listing.feeNightly}, \
+      let listingRecord = `${record.listing.listingId}, ${record.listing.occupency}, ${record.listing.feeNightly}, \
 ${record.listing.feeService}, ${record.listing.feeCleaning}, \
 ${record.listing.rating}, ${record.listing.numRatings}\n`;
 
       let reservationRecord = '';
       for (var j = 0; j < record.reservations.length; j++) {
-        reservationRecord += `${record.reservations[j].listingKey}, ${record.reservations[j].start}, \
+        reservationRecord += `${numberOfReservations}, ${record.reservations[j].listingKey}, ${record.reservations[j].start}, \
 ${record.reservations[j].end}, ${record.reservations[j].adults}, ${record.reservations[j].children}, \
 ${record.reservations[j].infants}\n`;
         numberOfReservations++;

@@ -16,14 +16,22 @@ let pipeData = () => {
   // listings
   //let listingReadStream = fs.createReadStream('../seeding/listingData.csv');
   db.query(
-'LOAD DATA INLINE "../seeding/listingData.csv" \
+'LOAD DATA LOCAL INFILE "/home/dylan/Desktop/SDC/Reservation-Service/DB/seeding/listingData.csv" \
 INTO TABLE listings \
 FIELDS TERMINATED BY "," \
-LINES TERMINATED BY "/n" \
+LINES TERMINATED BY "\n" \
 IGNORE 1 ROWS'
 );
-  console.log('listings seeded in mySQL');
+  console.log('listings seeded in mySQL!');
   // reservations
+  db.query(
+'LOAD DATA LOCAL INFILE "/home/dylan/Desktop/SDC/Reservation-Service/DB/seeding/reservationData.csv" \
+INTO TABLE reservations \
+FIELDS TERMINATED BY "," \
+LINES TERMINATED BY "\n" \
+IGNORE 1 ROWS'
+  );
+  console.log('reservations seeded in mySQL!');
   //let reservationReadStream = fs.createReadStream('/../seeding/reservationData.csv');
 
   // get mySQL ready for bulk loading for InnoDB Tables
@@ -52,8 +60,9 @@ IGNORE 1 ROWS'
 let main = async () => {
   // seed csv files function call
   await csvSeed(); //------------already seeded so commented out
-  //await pipeData();
-  //console.log('pipeData done');
+  console.log('Seeding mySQL ...');
+  await pipeData();
+  console.log('mySQL seeding Complete!');
   await db.end(); //disconect from mySQL
   console.log('Disconected from mySQL');
 }

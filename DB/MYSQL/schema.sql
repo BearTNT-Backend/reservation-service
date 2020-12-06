@@ -4,25 +4,27 @@
 -- from root directory
 -- mysql -u root -p < ./DB/MYSQL/schema.sql
 
-DROP DATABASE sdc;
-CREATE DATABASE IF NOT EXISTS sdc;
+DROP DATABASE IF EXISTS  sdc;
+CREATE DATABASE  sdc;
 
 USE sdc;
 
+-- listingId int NOT NULL AUTO_INCREMENT -- not workding
+
+
 CREATE TABLE IF NOT EXISTS listings (
-  listingId int NOT NULL UNIQUE  AUTO_INCREMENT,
-  -- reservationKey int NOT NULL UNIQUE, get via join querry ??
+  listingId int NOT NULL,
   occupency int NOT NULL,
   feeNightly int,
   feeService int,
   feeCleaning int,
-  rating float,
+  rating decimal(3,2),
   numRatings int,
   PRIMARY KEY (listingId)
 );
 
 CREATE TABLE IF NOT EXISTS reservations (
-  resId int NOT NULL AUTO_INCREMENT,
+  resId int NOT NULL,
   listingKey int NOT NULL,
   startDate DATE NOT NULL,
   endDate DATE NOT NULL,
