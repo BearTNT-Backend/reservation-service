@@ -14,7 +14,7 @@ USE sdc;
 
 CREATE TABLE IF NOT EXISTS listings (
   listingId int NOT NULL,
-  occupency int NOT NULL,
+  occupancy int NOT NULL,
   feeNightly int,
   feeService int,
   feeCleaning int,

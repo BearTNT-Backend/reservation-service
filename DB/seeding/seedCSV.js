@@ -18,10 +18,10 @@ let randomNum = (min, max) => {
 };
 
 // create reservation data ----------------------------------------------------
-let createReservation = (occupency, listingId) => {
+let createReservation = (occupancy, listingId) => {
     //resId = ???
-  let adults = randomNum(1, occupency);
-  let children = randomNum(0, (occupency - adults));
+  let adults = randomNum(1, occupancy);
+  let children = randomNum(0, (occupancy - adults));
   // choose a random day
   let start = MomentRandom('2021-12-31', '2021-01-01').format('YYYY-MM-DD');
   let end = moment(start, 'YYYY-MM-DD').add(randomNum(1, 10), 'days').format('YYYY-MM-DD');
@@ -50,7 +50,7 @@ let createRecord = (id) => {
 
   listing = { //reservationKey ???
     listingId: id,
-    occupency: randomNum(1, 10),
+    occupancy: randomNum(1, 10),
     feeNightly: feeNightly,
     feeService: feeService,
     feeCleaning: feeCleaning,
@@ -61,7 +61,7 @@ let createRecord = (id) => {
   //reservations
   let numReservations = randomNum(1, 3);
   for (var j = 0; j < numReservations; j++) {
-    reservations.push(createReservation(listing.occupency, id));
+    reservations.push(createReservation(listing.occupancy, id));
   }
 
   let record = {listing: listing, reservations: reservations};
@@ -78,7 +78,7 @@ let createRecord = (id) => {
 let createWriteRecords = (listingWriteStream, reservationWriteStream, callback) => {
 // https://nodejs.org/api/stream.html#stream_event_drain
   // set csv first line with data variable names
-  listingWriteStream.write('listingId, occupency, feeNightly, feeService, feeCleaning, rating, numRatings\n');
+  listingWriteStream.write('listingId, occupancy, feeNightly, feeService, feeCleaning, rating, numRatings\n');
   reservationWriteStream.write('resId, listingKey, start, end, adults, children, infants\n');
 
   let numberOfReservations = 0;
@@ -99,7 +99,7 @@ let createWriteRecords = (listingWriteStream, reservationWriteStream, callback) 
       // get data
       let record = createRecord(i);
       // format data // do via a loop to reduce updates ...
-      let listingRecord = `${record.listing.listingId}, ${record.listing.occupency}, ${record.listing.feeNightly}, \
+      let listingRecord = `${record.listing.listingId}, ${record.listing.occupancy}, ${record.listing.feeNightly}, \
 ${record.listing.feeService}, ${record.listing.feeCleaning}, \
 ${record.listing.rating}, ${record.listing.numRatings}\n`;
 
