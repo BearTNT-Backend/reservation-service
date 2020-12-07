@@ -1,4 +1,5 @@
 // create test data set with seed.js and poulate mySql with data
+// may need mysql> SET GLOBAL local_infile=1;
 
 const mysql = require('mysql');
 const moment = require('moment');
@@ -9,62 +10,54 @@ const db = require('../MYSQL/db.js');
 // to speed up look into https://dev.mysql.com/doc/refman/8.0/en/optimizing-innodb-bulk-data-loading.html more
 
 // Reads csv data into MySQL Database
-let pipeData = () => {
+let pipeListings = () => {
   // https://www.youtube.com/watch?v=9_x-UIVlxgo&ab_channel=coder4life faster ??
 
-  // open read file stream to csv files
-  // listings
-  //let listingReadStream = fs.createReadStream('../seeding/listingData.csv');
+  console.log('Seeding listings...');
+
   db.query(
 'LOAD DATA LOCAL INFILE "/home/dylan/Desktop/SDC/Reservation-Service/DB/seeding/listingData.csv" \
 INTO TABLE listings \
 FIELDS TERMINATED BY "," \
-LINES TERMINATED BY "\n" \
-IGNORE 1 ROWS'
+LINES TERMINATED BY "\n"'
 );
-  console.log('listings seeded in mySQL!');
+
+};
+
+//listingId, occupency, feeNightly, feeService, feeCleaning, rating, numRatings
+// \
+// IGNORE 1 ROWS'
+
+
+let pipeReservations = () => {
+
+  console.log('Seeding reservations...');
   // reservations
-  db.query(
-'LOAD DATA LOCAL INFILE "/home/dylan/Desktop/SDC/Reservation-Service/DB/seeding/reservationData.csv" \
-INTO TABLE reservations \
-FIELDS TERMINATED BY "," \
-LINES TERMINATED BY "\n" \
-IGNORE 1 ROWS'
-  );
-  console.log('reservations seeded in mySQL!');
-  //let reservationReadStream = fs.createReadStream('/../seeding/reservationData.csv');
+//   db.query(
+// 'LOAD DATA LOCAL INFILE "/home/dylan/Desktop/SDC/Reservation-Service/DB/seeding/reservationData.csv" \
+// INTO TABLE reservations \
+// FIELDS TERMINATED BY "," \
+// LINES TERMINATED BY "\n" \
+// IGNORE 1 ROWS'
+//   );
+//   console.log('reservations seeded in mySQL!');
 
   // get mySQL ready for bulk loading for InnoDB Tables
-
-  // read and write data to database
-
-  // read and pipe to db
-
-  // read csv files and pipe data to mysql db write stream
-}
-
-
-
-//load data local in file
-
-
-
-
-
-
-
+};
 
 //-------------------------------------------------------------------------------------
 // main calls async
 
 let main = async () => {
   // seed csv files function call
-  await csvSeed(); //------------already seeded so commented out
+  //await csvSeed(); //------------already seeded so commented out
   console.log('Seeding mySQL ...');
-  await pipeData();
-  console.log('mySQL seeding Complete!');
+  await pipeListings();
+  console.log('listings table seeded!');
+  // await pipeReservations();
+  // console.log('Reservations table seeded');
   await db.end(); //disconect from mySQL
-  console.log('Disconected from mySQL');
+  console.log('mySQL seeding Complete!');
 }
 
 main();
