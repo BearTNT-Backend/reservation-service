@@ -63,10 +63,10 @@ const getAllResForListing = (listingKey, callback) => {
 const newRecord = (table, data, callback) => {
   let query;
   let values;
-  if (table = 'listing') {
+  if (table = 'listings') {
     query = `INSERT INTO ${table} (listingId, occupancy, feeeNightly, feeService, feeCleaning, rating, numRatings) VAlUES (?, ?, ?, ?, ?, ?, ?)`;
     values = [data.listingId, data.occupancy, data.feeeNightly, data.feeService, data.feeCleaning, data.rating, data.numRatings];
-  }  else if (table = 'reservation') {
+  }  else if (table = 'reservations') {
     query = `INSERT INTO ${type} (resId, listingKey, startDate, endDate, adults, children, infants) Values (?, ?, ?, ?, ?, ?, ?)`;
     values = [data.resId, data.listingKey, data.startDate, data.endDate, data.adults, data.children, data.infants];
   } else {
@@ -82,21 +82,48 @@ const newRecord = (table, data, callback) => {
   });
 };
 
-const newListing = (data, callback) => {
-  let query = `INSERT INTO reservations (listingId, occupancy, feeeNightly, feeService, feeCleaning, rating, numRatings) VAlUES (?, ?, ?, ?, ?, ?, ?)`;
-  let values = [data.listingId, data.occupancy, data.feeeNightly, data.feeService, data.feeCleaning, data.rating, data.numRatings];
-  connection.query(query, values, (err, res) => {
+// update
+const updateRecord = (table, id, element, newValue, callback) => {
+  let primaryId;
+  if (table = 'listings') {
+    primaryId = 'listingId';
+  }  else if (table = 'reservations') {
+    primaryId = 'resId';
+  } else {
+    console.error('Error type in updateRecord');
+    callback(404, null);
+  }
+  let query = `UPDATE ${table} SET ${element} = ${newValue} WHERE ${primaryId} = ${id}`;
+  connection.query(query, (err, res) => {
     if (err) {
-      console.error('Error in newListing');
+      console.error('Error in updateRecord');
       callback(err, res);
     }
     callback(null, res);
   });
 };
 
-// update
-
 // delete
+const removeRecord = (table, id, callback) => {
+  let primaryId;
+  if (table = 'listings') {
+    primaryId = 'listingId';
+  }  else if (table = 'reservations') {
+    primaryId = 'resId';
+  } else {
+    console.error('Error type in removeRecord');
+    callback(404, null);
+  }
+  let query = `DELETE FROM ${table} WHERE ${primaryId} = ${id}`;
+  connection.query(query, (err, res) => {
+    if (err) {
+      console.error('Error in removeRecord');
+      callback(err, res);
+    }
+    callback(null, res);
+  });
+};
+
 module.exports = {
   connection,
   getCostsByAppartment
