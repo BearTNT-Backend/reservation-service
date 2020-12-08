@@ -27,39 +27,57 @@ app.get('/listing/*', (req, res) => {
 
 });
 
-app.get('/api/reservation/calendar', (req, res) => {
-  //console.log(req.query.appartmentID);
-  let appartmentID = req.query.ApartmentId;
+/*
+// app.get('/api/reservation/calendar', (req, res) => {
+//   //console.log(req.query.appartmentID);
+//   let appartmentID = req.query.ApartmentId;
 
-  db.getCalendarDataByApartment(appartmentID, (err, data) => {
-    if (err) {
-      res.sendStatus(400);
-    } else {
-      //console.log(data);
-      res.status(201).json(data);
-    }
-  });
-});
+//   db.getCalendarDataByApartment(appartmentID, (err, data) => {
+//     if (err) {
+//       res.sendStatus(400);
+//     } else {
+//       //console.log(data);
+//       res.status(201).json(data);
+//     }
+//   });
+// });
 
-app.get('/api/reservation/reservationCost', (req, res) => {
-  let listingId = Number(req.query.listingId);
-  db.getCostsByAppartment(listingId, (err, data) => {
-    if (err) {
-      console.log(listingId);
-      res.sendStatus(400);
-    } else {
-      //console.log('Reservation listingId', data);
-      //console.log('Reservation data', data);
-      res.status(201).json(data);
-    }
+// app.get('/api/reservation/reservationCost', (req, res) => {
+//   let listingId = Number(req.query.listingId);
+//   db.getCostsByAppartment(listingId, (err, data) => {
+//     if (err) {
+//       console.log(listingId);
+//       res.sendStatus(400);
+//     } else {
+//       //console.log('Reservation listingId', data);
+//       //console.log('Reservation data', data);
+//       res.status(201).json(data);
+//     }
+//   });
+// });
+*/
+
+// body input table name, element searching for and primary id
+app.get('/api/getRecord', (req, res) => {
+  // console.log(req.body);
+    let table = req.body.table;
+    let element = req.body.element;
+    let id = req.body.id;
+    db.getRecord(table, element, id, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.sendStatus(404);
+      } else {
+        res.status(201).json(data);
+      }
+    });
   });
-});
 
 
 // -------------start of SDC ----------------
 
 // post
-app.post('/api/reservation/makeReservation', (req, res) => { // validity should be checked on client just need to push to db
+app.post('/api/newRecord', (req, res) => { // validity should be checked on client just need to push to db
   console.log('makeReservation');
   //console.log(req.body);
   let data = req.body;
@@ -76,12 +94,13 @@ app.post('/api/reservation/makeReservation', (req, res) => { // validity should 
 
 
 // update
-app.put('/api/reservation/update', (req, res) => {
-  console.log('reservation update!');
-  let aptId = Number(req.query.ApartmentId);
-  req.body['ApartmentId'] = aptId;
+app.put('/api/update', (req, res) => {
+  let table = req.body.table;
+  let element = req.body.element;
+  let id = req.body.id;
+  let newValue = req.body.newValue;
   // valid data point ?? db.find()
-  db.updateReservation( req, (err) => {
+  db.updateRecord(table, id, element, newValue, (err) => {
     if (err) {
       res.send('Could not update Reservation');
     } else {
@@ -91,17 +110,15 @@ app.put('/api/reservation/update', (req, res) => {
 });
 
 // delete
-app.delete('/api/reservation/delete', (req, res) => {
-  console.log('Deleting Reservation!');
-  let aptId = Number(req.query.ApartmentId);
-  let resId = req.body._id;
-  db.deleteReservation({appartmentID: aptId, reservationId: resId}, (err) => {
+// input table name, record id
+app.delete('/api/delete', (req, res) => {
+  db.removeRecord(req.body.table, req.body.id, (err) => {
     if (err) {
-      console.log('Error could not delete');
+      console.log('Error could not delete', err);
       res.send('Error could not delete');
     } else {
-      console.log('Deleted Reservation');
-      res.send('Deleted Reservation');
+      console.log('Deleted Record');
+      res.send('Deleted Record');
     }
   });
 });

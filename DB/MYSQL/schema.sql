@@ -13,7 +13,7 @@ USE sdc;
 
 
 CREATE TABLE IF NOT EXISTS listings (
-  listingId int NOT NULL,
+  listingId int NOT NULL AUTO_INCREMENT,
   occupancy int NOT NULL,
   feeNightly int,
   feeService int,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS listings (
 );
 
 CREATE TABLE IF NOT EXISTS reservations (
-  resId int NOT NULL,
+  resId int NOT NULL AUTO_INCREMENT,
   listingKey int NOT NULL,
   startDate DATE NOT NULL,
   endDate DATE NOT NULL,

@@ -4,7 +4,7 @@
 
 const mysql = require('mysql');
 const fs = require('fs');
-const db = require('../MYSQL/db.js');
+const db = require('../MYSQL/login.js');
 
 // to speed up look into https://dev.mysql.com/doc/refman/8.0/en/optimizing-innodb-bulk-data-loading.html more
 // https://www.youtube.com/watch?v=9_x-UIVlxgo&ab_channel=coder4life faster ??
