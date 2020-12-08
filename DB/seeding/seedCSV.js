@@ -10,8 +10,7 @@ const fs = require('fs');
 // Helpers --------------------------------------------------------------------
 
 // number of listings to be created
-  //const numListings = 10000000;
-const numListings = 10;
+  const numListings = 10000000;
 
 // get random numbers
 let randomNum = (min, max) => {

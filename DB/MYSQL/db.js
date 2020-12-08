@@ -1,8 +1,6 @@
 const mysql = require('mysql');
 const db = require('./login.js');
 
-
-
   // gets
   let getRecord = (table, element, id, callback) => {
     if (table = 'listings') {

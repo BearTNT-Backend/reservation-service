@@ -10,30 +10,30 @@ const db = require('../MYSQL/login.js');
 // to speed up look into https://dev.mysql.com/doc/refman/8.0/en/optimizing-innodb-bulk-data-loading.html more
 // https://www.youtube.com/watch?v=9_x-UIVlxgo&ab_channel=coder4life faster ??
 
-let pipeListings = () => {
+let pipeListings = (callback) => {
 
-  console.log('Seeding listings...');
+  console.log('  Seeding listings...');
 
   db.query(
 'LOAD DATA LOCAL INFILE "/home/dylan/Desktop/SDC/Reservation-Service/DB/seeding/listingData.csv" \
 INTO TABLE listings \
 FIELDS TERMINATED BY "," \
 LINES TERMINATED BY "\n" \
-IGNORE 1 ROWS'
+IGNORE 1 ROWS', callback
   );
 
 };
 
-let pipeReservations = () => {
+let pipeReservations = (callback) => {
 
-  console.log('Seeding reservations...');
+  console.log('  Seeding reservations...');
 
   db.query(
 'LOAD DATA LOCAL INFILE "/home/dylan/Desktop/SDC/Reservation-Service/DB/seeding/reservationData.csv" \
 INTO TABLE reservations \
 FIELDS TERMINATED BY "," \
 LINES TERMINATED BY "\n" \
-IGNORE 1 ROWS'
+IGNORE 1 ROWS', callback
   );
 
 };
@@ -41,15 +41,18 @@ IGNORE 1 ROWS'
 //-------------------------------------------------------------------------------------
 // main calls async
 
-let main = async () => {
+let main = () => {
   console.log('Seeding mySQL ...');
-  await pipeListings();
-  console.log('listings table seeded!');
-  await pipeReservations();
-  console.log('Reservations table seeded');
-  await db.end(); //disconect from mySQL
-  console.log('mySQL seeding Complete!');
-}
+  pipeListings( () => {
+    console.log('listings table seeded!');
+    pipeReservations( () => {
+      console.log('Reservations table seeded');
+      db.end( () => {
+        console.log('mySQL seeding Complete!');
+      });
+    });
+  });
+};
 
 main();
 
