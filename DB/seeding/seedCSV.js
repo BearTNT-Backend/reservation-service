@@ -1,4 +1,5 @@
 // seed fake data of 10,000,000 listings with 0-3 reservations per listing for a total of 10,000,000 - 40,000,000 records into two csv files
+// npm run seedCSV
 
 const moment = require('moment') ;
 const MomentRandom = require('moment-random');
@@ -10,7 +11,7 @@ const fs = require('fs');
 
 // number of listings to be created
   //const numListings = 10000000;
-const numListings = 10000;
+const numListings = 10;
 
 // get random numbers
 let randomNum = (min, max) => {
@@ -98,10 +99,13 @@ let createWriteRecords = (listingWriteStream, reservationWriteStream, callback) 
 
       // get data
       let record = createRecord(i);
+
       // format data // do via a loop to reduce updates ...
+
       let listingRecord = `${record.listing.listingId}, ${record.listing.occupancy}, ${record.listing.feeNightly}, \
 ${record.listing.feeService}, ${record.listing.feeCleaning}, \
 ${record.listing.rating}, ${record.listing.numRatings}\n`;
+
 
       let reservationRecord = '';
       for (var j = 0; j < record.reservations.length; j++) {
@@ -160,7 +164,5 @@ let main = () => {
 }
 
 main();
-
-// npm run seedCSV
 
 module.exports = main;
