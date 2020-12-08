@@ -1,6 +1,7 @@
 // read csv data into mySQL database tables
 // sudo service mysql start
 // may need mysql> SET GLOBAL local_infile=1;
+// npm run seedMysql
 
 const mysql = require('mysql');
 const fs = require('fs');
@@ -53,5 +54,3 @@ let main = async () => {
 main();
 
 module.exports = main;
-
-// npm run seedMysql

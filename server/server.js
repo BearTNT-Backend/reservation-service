@@ -78,20 +78,16 @@ app.get('/api/getRecord', (req, res) => {
 
 // post
 app.post('/api/newRecord', (req, res) => { // validity should be checked on client just need to push to db
-  console.log('makeReservation');
-  //console.log(req.body);
-  let data = req.body;
-  db.makeReservation (data, (err) => {
+  db.newRecord (req.body, (err) => {
     if (err) {
-      console.log('error during saving reservation data');
-      res.sendStatus(400);
+      console.log('error during saving new record', err);
+      res.status(400).send();
     } else {
-      console.log('post complete');
-      res.sendStatus(201);
+      console.log('post completed');
+      res.status(201).send('Post Completed');
     }
   });
 });
-
 
 // update
 app.put('/api/update', (req, res) => {

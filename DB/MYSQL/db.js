@@ -35,15 +35,17 @@ const db = require('./login.js');
   // posts
 
   // Primary Ids should be set by db !!!
-  let newRecord = (table, data, callback) => {
-    let query;
-    let values;
+  // data should = table, schema values minus primary id
+  let newRecord = (data, callback) => {
+    let query = '';
+    let values = [];
+    let table = data.table;
     if (table = 'listings') {
-      query = `INSERT INTO ${table} (listingId, occupancy, feeeNightly, feeService, feeCleaning, rating, numRatings) VAlUES (?, ?, ?, ?, ?, ?, ?)`;
-      values = [data.listingId, data.occupancy, data.feeeNightly, data.feeService, data.feeCleaning, data.rating, data.numRatings];
+      query = `INSERT INTO ${table} (occupancy, feeNightly, feeService, feeCleaning, rating, numRatings) VAlUES (?, ?, ?, ?, ?, ?)`;
+      values = [data.occupancy, data.feeeNightly, data.feeService, data.feeCleaning, data.rating, data.numRatings];
     }  else if (table = 'reservations') {
-      query = `INSERT INTO ${type} (resId, listingKey, startDate, endDate, adults, children, infants) Values (?, ?, ?, ?, ?, ?, ?)`;
-      values = [data.resId, data.listingKey, data.startDate, data.endDate, data.adults, data.children, data.infants];
+      query = `INSERT INTO ${type} (listingKey, startDate, endDate, adults, children, infants) Values (?, ?, ?, ?, ?, ?)`;
+      values = [data.listingKey, data.startDate, data.endDate, data.adults, data.children, data.infants];
     } else {
       console.error('Error type in newRecord');
       callback(404, null);
