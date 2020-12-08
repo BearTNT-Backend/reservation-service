@@ -42,13 +42,13 @@ app.get('/api/reservation/calendar', (req, res) => {
 });
 
 app.get('/api/reservation/reservationCost', (req, res) => {
-  let appartmentID = (Number) (req.query.appartmentID);
-  db.getCostsByAppartment(appartmentID, (err, data) => {
+  let listingId = Number(req.query.listingId);
+  db.getCostsByAppartment(listingId, (err, data) => {
     if (err) {
-      console.log(appartmentID);
+      console.log(listingId);
       res.sendStatus(400);
     } else {
-      //console.log('Reservation appartmentID', data);
+      //console.log('Reservation listingId', data);
       //console.log('Reservation data', data);
       res.status(201).json(data);
     }
