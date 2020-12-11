@@ -31,7 +31,7 @@ function App () {
     saves them into sorted array and object to pass it to calendar
   **/
   const disaBleDays = (dates) => {
-    console.log('dates ', dates);
+    // console.log('dates ', dates);
     //2020-11-14T03:50:11.071Z
     let objDisabledDates = {};
     let arr = [];
@@ -41,7 +41,7 @@ function App () {
       // + '/' + date.substring(0, 4);
       // console.log(dateFormated);
       let time = new Date(date).getTime();
-      console.log('Time ===== ', time);
+      // console.log('Time ===== ', time);
       arr.push(time);
       objDisabledDates[time] = true;
     }
@@ -49,7 +49,7 @@ function App () {
     obj.obj = objDisabledDates;
     arr.sort();
     obj.arr = arr;
-    console.log('arr',arr);
+    // console.log('arr',arr);
     return obj;
   };
 
@@ -74,20 +74,19 @@ function App () {
     });
     request.done(function(data) {
       let arr = [];
-      console.log('first data received',data);
+      // console.log('first data received',data);
       let price = data[0].feeNightly + data[0].feeCleaning + data[0].feeService;
       for (let i = 1; i < data.length; i++) {
-        console.log(data[i].date);
+        // console.log(data[i].date);
         arr.push(data[i].date);
       }
-      console.log(arr);
       setGuests(data[0].occupancy);
       let disabledDays = disaBleDays(arr);
       setCalendarData(disabledDays);
       setPrice(price);
       setBusy({loading: false});
     });
-    //console.log(guests);
+    // console.log(guests);
     request.fail(function(jqXHR, textStatus) {
       alert('Requset Fetch Booked days failed:' + textStatus);
     });
@@ -118,7 +117,7 @@ function App () {
     //console.log(nights);
     const result = axios.get('/api/listing', {params: {listingId: appartmentID}})
     .then ( ({data}) => {
-      console.log(data);
+      // console.log(data);
       // console.log('enddate data  received');
       // onsole.log('enddate data  shoeFees', (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) ," ", nights);
       if (Number(nights) >= 1) {
@@ -155,15 +154,19 @@ function App () {
 
 
   const makeReservation = () => {
-    const result = axios.post('/api/reservation/makeReservation', {
-      listingKey: appartmentID,
-      startDate: reservationDates.startDate,
-      endDate: reservationDates.endDate,
-      adults: selectedGuests.adults,
-      children: selectedGuests.children,
-      infants: selectedGuests.infants
-    }).then ()
-      .catch();
+    // const result = axios.post('/api/reservation/makeReservation', {
+    //   listingKey: appartmentID,
+    //   startDate: reservationDates.startDate,
+    //   endDate: reservationDates.endDate,
+    //   adults: selectedGuests.adults,
+    //   children: selectedGuests.children,
+    //   infants: selectedGuests.infants
+    // }).then ((err) => {
+    //   if(err) {
+
+    //   }
+    // });
+
   };
 
   /**

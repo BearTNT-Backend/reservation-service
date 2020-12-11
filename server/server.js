@@ -83,7 +83,6 @@ app.get('/api/getRecord', (req, res) => {
   });
 
 
-// -------------start of SDC ----------------
 
 // post
 app.post('/api/newRecord', (req, res) => { // validity should be checked on client just need to push to db

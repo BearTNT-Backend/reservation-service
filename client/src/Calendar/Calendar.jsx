@@ -15,7 +15,7 @@ const CalendarComponent = (props) => {
 
   //received disabled array data from props and dets {disabledDays} to it
   useEffect(() => {
-
+    //console.log('debug calendar ', props.data.obj);
     setDisabledDays(props.data.obj);
     //console.log('disdays', disabledDays);
   } );
@@ -72,7 +72,7 @@ const CalendarComponent = (props) => {
     every time end date is selected program automatically send api request to server and received data about costs
   **/
   useEffect(() => {
-    console.log('enddate useEffect');
+    //console.log('enddate useEffect');
     props.endDateClick(startDate, endDate);
   }, [endDate]);
 
