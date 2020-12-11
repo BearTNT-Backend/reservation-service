@@ -31,15 +31,17 @@ function App () {
     saves them into sorted array and object to pass it to calendar
   **/
   const disaBleDays = (dates) => {
-
+    console.log('dates ', dates);
     //2020-11-14T03:50:11.071Z
     let objDisabledDates = {};
     let arr = [];
     for (let date of dates) {
-      let dateSubs = date.substring(0, 10);
-      let dateFormated = date.substring(5, 7) + '/' + date.substring(8, 10)
-      + '/' + date.substring(0, 4);
-      let time = new Date(dateFormated).getTime();
+      // let dateSubs = date.substring(0, 10);
+      // let dateFormated = date.substring(5, 7) + '/' + date.substring(8, 10)
+      // + '/' + date.substring(0, 4);
+      // console.log(dateFormated);
+      let time = new Date(date).getTime();
+      console.log('Time ===== ', time);
       arr.push(time);
       objDisabledDates[time] = true;
     }
@@ -47,7 +49,7 @@ function App () {
     obj.obj = objDisabledDates;
     arr.sort();
     obj.arr = arr;
-    //console.log('arr',arr);
+    console.log('arr',arr);
     return obj;
   };
 
@@ -72,18 +74,18 @@ function App () {
     });
     request.done(function(data) {
       let arr = [];
-      //console.log('first data received',data);
-      let price = 0;
-      for (let obj of data) {
-        arr.push(obj.CalendarDays.date);
-        price = obj.CalendarDays.apartmentCost;
+      console.log('first data received',data);
+      let price = data[0].feeNightly + data[0].feeCleaning + data[0].feeService;
+      for (let i = 1; i < data.length; i++) {
+        console.log(data[i].date);
+        arr.push(data[i].date);
       }
-      setGuests(data[0].CalendarDays.totalGuests);
+      console.log(arr);
+      setGuests(data[0].occupancy);
       let disabledDays = disaBleDays(arr);
-      setCalendarData( disabledDays);
+      setCalendarData(disabledDays);
       setPrice(price);
       setBusy({loading: false});
-
     });
     //console.log(guests);
     request.fail(function(jqXHR, textStatus) {
@@ -114,20 +116,21 @@ function App () {
     };
     let nights = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
     //console.log(nights);
-    const result = axios.get('/api/reservation/reservationCost',{
-      params: query
-    }).then (data => {
-      console.log('enddate data  received');
-      console.log('enddate data  shoeFees', (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) ," ", nights);
+    const result = axios.get('/api/listing', {params: {listingId: appartmentID}})
+    .then ( ({data}) => {
+      console.log(data);
+      // console.log('enddate data  received');
+      // onsole.log('enddate data  shoeFees', (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) ," ", nights);
       if (Number(nights) >= 1) {
-        let receivedObj = data.data;
+        let receivedObj = data;
         let objFees = {
           nights: nights,
-          price: receivedObj.CalendarDays.apartmentCost,
-          cleanigFee: receivedObj.CalendarDays.cleaningCost,
-          serviceFee: receivedObj.CalendarDays.serviceCost,
-          total: receivedObj.CalendarDays.totalCost
+          price: receivedObj.feeNightly,
+          cleanigFee: receivedObj.feeCleaning,
+          serviceFee: receivedObj.feeService,
+          total: receivedObj.feeService + receivedObj.feeCleaning + receivedObj.feeNightly
         };
+        //console.log(objFees);
         let content = document.getElementsByClassName('box-em');
         if (content.item(0).style.height === '27%' || content.item(0).style.height ==='' ) {
           content.item(0).style.height = '45%';
@@ -152,22 +155,13 @@ function App () {
 
 
   const makeReservation = () => {
-    let query = {
-      apptId: appartmentID,
+    const result = axios.post('/api/reservation/makeReservation', {
+      listingKey: appartmentID,
       startDate: reservationDates.startDate,
       endDate: reservationDates.endDate,
-      fee: {
-        nights: fees.nights,
-        cleanigFee: fees.cleanigFee * fees.nights,
-        price: fees.price * fees.nights,
-        serviceFee: fees.serviceFee * fees.nights,
-        total: fees.total * fees.nights,
-      },
-      guests: selectedGuests
-
-    };
-    const result = axios.post('/api/reservation/makeReservation',{
-      params: query
+      adults: selectedGuests.adults,
+      children: selectedGuests.children,
+      infants: selectedGuests.infants
     }).then ()
       .catch();
   };

@@ -27,21 +27,30 @@ app.get('/listing/*', (req, res) => {
 
 });
 
+app.get('/api/listing', (req, res) => {
+  //console.log(req.query.appartmentID);
+  let listingId = req.query.listingId;
+  db.getListingInfo(listingId, (err, data) => {
+    if (err) {
+      res.sendStatus(400);
+    } else {
+      res.status(201).json(data);
+    }
+  });
+});
+
+app.get('/api/reservation/calendar', (req, res) => {
+  //console.log(req.query.appartmentID);
+  let listingId = req.query.ApartmentId;
+  db.getCalendarData(listingId, (err, data) => {
+    if (err) {
+      res.sendStatus(400);
+    } else {
+      res.status(201).json(data);
+    }
+  });
+});
 /*
-// app.get('/api/reservation/calendar', (req, res) => {
-//   //console.log(req.query.appartmentID);
-//   let appartmentID = req.query.ApartmentId;
-
-//   db.getCalendarDataByApartment(appartmentID, (err, data) => {
-//     if (err) {
-//       res.sendStatus(400);
-//     } else {
-//       //console.log(data);
-//       res.status(201).json(data);
-//     }
-//   });
-// });
-
 // app.get('/api/reservation/reservationCost', (req, res) => {
 //   let listingId = Number(req.query.listingId);
 //   db.getCostsByAppartment(listingId, (err, data) => {
@@ -62,7 +71,7 @@ app.get('/api/getRecord', (req, res) => {
   // console.log(req.body);
     let table = req.body.table;
     let element = req.body.element;
-    let id = req.body.id;
+    let id = req.boqy.query.ApartmentId;
     db.getRecord(table, element, id, (err, data) => {
       if (err) {
         console.error(err);
@@ -93,7 +102,7 @@ app.post('/api/newRecord', (req, res) => { // validity should be checked on clie
 app.put('/api/update', (req, res) => {
   let table = req.body.table;
   let element = req.body.element;
-  let id = req.body.id;
+  let id = req.query.ApartmentId;
   let newValue = req.body.newValue;
   // valid data point ?? db.find()
   db.updateRecord(table, id, element, newValue, (err) => {
