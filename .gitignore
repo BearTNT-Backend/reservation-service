@@ -26,3 +26,5 @@ bundle.js
 *.pem
 
 *.csv
+
+newrelic.js
