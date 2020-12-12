@@ -28,3 +28,4 @@ bundle.js
 *.csv
 
 newrelic.js
+*.sh
