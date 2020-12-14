@@ -11,6 +11,7 @@ const fs = require('fs');
 
 // number of listings to be created
   const numListings = 10000000;
+  //const numListings = 100;
 
 // get random numbers
 let randomNum = (min, max) => {

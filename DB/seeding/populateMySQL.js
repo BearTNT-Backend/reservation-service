@@ -15,11 +15,11 @@ let pipeListings = (callback) => {
   console.log('  Seeding listings...');
 
   db.query(
-'LOAD DATA LOCAL INFILE "/home/dylan/Desktop/SDC/Reservation-Service/DB/seeding/listingData.csv" \
+`LOAD DATA LOCAL INFILE "${__dirname}/listingData.csv" \
 INTO TABLE listings \
 FIELDS TERMINATED BY "," \
 LINES TERMINATED BY "\n" \
-IGNORE 1 ROWS', callback
+IGNORE 1 ROWS`, callback
   );
 
 };
@@ -29,11 +29,11 @@ let pipeReservations = (callback) => {
   console.log('  Seeding reservations...');
 
   db.query(
-'LOAD DATA LOCAL INFILE "/home/dylan/Desktop/SDC/Reservation-Service/DB/seeding/reservationData.csv" \
+`LOAD DATA LOCAL INFILE "${__dirname}/reservationData.csv" \
 INTO TABLE reservations \
 FIELDS TERMINATED BY "," \
 LINES TERMINATED BY "\n" \
-IGNORE 1 ROWS', callback
+IGNORE 1 ROWS`, callback
   );
 
 };
